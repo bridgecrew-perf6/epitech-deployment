@@ -6,6 +6,8 @@ services:
     environment:
       - BLA=bla
     restart: on-failure:5
+    ports:
+      - ${portgateway}:8762
     deploy:
       resources:
         limits:
