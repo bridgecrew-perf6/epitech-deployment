@@ -16,7 +16,7 @@ services:
     image: epitech/gateway:latest
     container_name: epitech-gateway-${env}
     environment:
-      - eureka_client_serviceUrl_defaultZone=https://workshop-epitech.iaas.ippon.fr:${porteureka}/eureka/
+      - eureka_client_serviceUrl_defaultZone=https://10.0.40.18:${porteureka}/eureka/
     restart: on-failure:5
     ports:
       - ${portgateway}:8762
