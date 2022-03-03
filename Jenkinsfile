@@ -25,8 +25,8 @@ node {
                     sh "docker-compose down -v"
             }
            
-            stage('deploy') {
-                    sh "docker-compose up -d"
+            stage('Demarrage de la gateway') {
+                    sh "docker-compose up gateway -d"
             }
         }
     } catch (hudson.AbortException ae) {
