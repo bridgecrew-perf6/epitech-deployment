@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  gateway:
+    image: epitech/gateway:latest
+    container_name: epitech-gateway-${env}
+    environment:
+      - BLA=bla
+    restart: on-failure:5
+    deploy:
+      resources:
+        limits:
+          memory: 200MB
