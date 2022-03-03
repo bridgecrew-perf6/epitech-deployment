@@ -80,4 +80,5 @@ services:
       - eureka
 networks:
   internal-epitech:
-    driver: overlay
+    driver: bridge
+    name: epitech-network-${env}
