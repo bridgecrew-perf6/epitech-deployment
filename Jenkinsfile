@@ -20,6 +20,10 @@ node {
                 echo "My branch is: ${env.BRANCH_NAME}"
 
             }
+
+             stage('Stop applications') {
+                    sh "docker-compose down -v"
+            }
            
             stage('deploy') {
                     sh "docker-compose up -d"
