@@ -81,4 +81,4 @@ services:
 networks:
   internal-epitech:
     driver: bridge
-    name: epitech-network-${env}
+    #name: epitech-network-${env}
