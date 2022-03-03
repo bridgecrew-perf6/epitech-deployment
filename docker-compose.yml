@@ -37,7 +37,7 @@ services:
       - eureka_client_serviceUrl_defaultZone=http://${ipServer}:${porteureka}/eureka/
     restart: on-failure:5
     ports:
-      - ${portgateway}:8762
+      - ${portmsproduits}:8080
     networks:
       - internal-epitech
     deploy:
@@ -55,7 +55,7 @@ services:
     networks:
       - internal-epitech
     ports:
-      - ${portgateway}:8762
+      - ${portmscommandes}:8080
     deploy:
       resources:
         limits:
@@ -71,7 +71,7 @@ services:
     networks:
       - internal-epitech
     ports:
-      - ${portgateway}:8762
+      - ${portmsnotifications}:8080
     deploy:
       resources:
         limits:
