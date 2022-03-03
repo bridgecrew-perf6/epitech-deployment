@@ -28,6 +28,10 @@ node {
             stage('Demarrage de la gateway') {
                     sh "docker-compose up -d gateway"
             }
+
+            stage('Demarrage des micro-services') {
+                    sh "docker-compose up -d"
+            }
         }
     } catch (hudson.AbortException ae) {
         echo "hudson.AbortException"

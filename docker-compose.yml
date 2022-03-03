@@ -18,7 +18,7 @@ services:
     image: epitech/gateway:latest
     container_name: epitech-gateway-${env}
     environment:
-      - eureka_client_serviceUrl_defaultZone=http://10.0.40.18:${porteureka}/eureka/
+      - eureka_client_serviceUrl_defaultZone=http://${ipServer}:${porteureka}/eureka/
     restart: on-failure:5
     networks:
       - internal-epitech
@@ -31,10 +31,10 @@ services:
     depends_on:
       - eureka
   msproduits:
-    image: epitech/produits:latest
+    image: epitech/produits:${versionMsProduits}
     container_name: epitech-produits-${env}
     environment:
-      - eureka_client_serviceUrl_defaultZone=http://10.0.40.18:${porteureka}/eureka/
+      - eureka_client_serviceUrl_defaultZone=http://${ipServer}:${porteureka}/eureka/
     restart: on-failure:5
     ports:
       - ${portgateway}:8762
@@ -47,10 +47,10 @@ services:
     depends_on:
       - eureka
   mscommandes:
-    image: epitech/commandes:latest
+    image: epitech/commandes:${versionMsCommandes}
     container_name: epitech-commandes-${env}
     environment:
-      - eureka_client_serviceUrl_defaultZone=http://10.0.40.18:${porteureka}/eureka/
+      - eureka_client_serviceUrl_defaultZone=http://${ipServer}:${porteureka}/eureka/
     restart: on-failure:5
     networks:
       - internal-epitech
@@ -63,10 +63,10 @@ services:
     depends_on:
       - eureka
   msnotifications:
-    image: epitech/notifications:latest
+    image: epitech/notifications:${versionMsNotifications}
     container_name: epitech-notifications-${env}
     environment:
-      - eureka_client_serviceUrl_defaultZone=http://10.0.40.18:${porteureka}/eureka/
+      - eureka_client_serviceUrl_defaultZone=http://${ipServer}:${porteureka}/eureka/
     restart: on-failure:5
     networks:
       - internal-epitech
