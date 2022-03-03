@@ -24,3 +24,5 @@ services:
       resources:
         limits:
           memory: 200MB
+    depends_on:
+      - eureka
