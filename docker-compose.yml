@@ -1,10 +1,22 @@
 version: "3.3"
 services:
+  eureka:
+    image: epitech/eureka:latest
+    container_name: epitech-gateway-${env}
+    environment:
+      - BLA=bla
+    restart: on-failure:5
+    ports:
+      - ${porteureka}:8761
+    deploy:
+      resources:
+        limits:
+          memory: 200MB
   gateway:
     image: epitech/gateway:latest
     container_name: epitech-gateway-${env}
     environment:
-      - BLA=bla
+      - eureka_client_serviceUrl_defaultZone=https://workshop-epitech.iaas.ippon.fr:${porteureka}/eureka/
     restart: on-failure:5
     ports:
       - ${portgateway}:8762
