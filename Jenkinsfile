@@ -24,7 +24,11 @@ node {
             }
 
              stage('Stop applications') {
+                 try{
                     sh "docker stack rm -c <(docker-compose config) ${branch}"
+                 }catch(AbortException e){
+                     
+                 }
             }
            
             stage('Demarrage de la stack') {
