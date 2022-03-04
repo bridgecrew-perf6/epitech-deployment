@@ -32,15 +32,13 @@ services:
       - eureka
   msproduits:
     image: epitech/produits:${versionMsProduits}
-    container_name: epitech-produits-${env}
     environment:
       - eureka_client_serviceUrl_defaultZone=http://${ipServer}:${porteureka}/eureka/
     restart: on-failure:5
-    ports:
-      - ${portmsproduits}:8080
     networks:
       - internal-epitech
     deploy:
+      replicas: 3
       resources:
         limits:
           memory: 200MB
@@ -48,15 +46,13 @@ services:
       - eureka
   mscommandes:
     image: epitech/commandes:${versionMsCommandes}
-    container_name: epitech-commandes-${env}
     environment:
       - eureka_client_serviceUrl_defaultZone=http://${ipServer}:${porteureka}/eureka/
     restart: on-failure:5
     networks:
       - internal-epitech
-    ports:
-      - ${portmscommandes}:8080
     deploy:
+      replicas: 3
       resources:
         limits:
           memory: 200MB
@@ -64,15 +60,13 @@ services:
       - eureka
   msnotifications:
     image: epitech/notifications:${versionMsNotifications}
-    container_name: epitech-notifications-${env}
     environment:
       - eureka_client_serviceUrl_defaultZone=http://${ipServer}:${porteureka}/eureka/
     restart: on-failure:5
     networks:
       - internal-epitech
-    ports:
-      - ${portmsnotifications}:8080
     deploy:
+      replicas: 3
       resources:
         limits:
           memory: 200MB
