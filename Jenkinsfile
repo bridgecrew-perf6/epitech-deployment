@@ -6,6 +6,7 @@ def gitCommit = ""
 def author = ""
 def errorString
 def commit
+def branch = ""
 
 node {
     try {
@@ -17,20 +18,17 @@ node {
                 author = sh(returnStdout: true, script: "git --no-pager show -s --format='%an' ${commit}").trim()
 
                 gitBranch = scm.branches[0].name.replaceAll("/", "_")
+                branch=gitBranch
                 echo "My branch is: ${env.BRANCH_NAME}"
 
             }
 
              stage('Stop applications') {
-                    sh "docker-compose down -v"
+                    sh "docker stack rm -c <(docker-compose config) $branch"
             }
            
-            stage('Demarrage de la gateway') {
-                    sh "docker-compose up -d gateway"
-            }
-
-            stage('Demarrage des micro-services') {
-                    sh "docker-compose up -d"
+            stage('Demarrage de la stack') {
+                    sh "docker stack deploy -c <(docker-compose config) $branch"
             }
         }
     } catch (hudson.AbortException ae) {
