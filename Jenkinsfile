@@ -22,15 +22,20 @@ node {
             }
 
              stage('Stop applications') {
-                 try{
-                    sh "docker stack rm -c <(docker-compose config) ${env.BRANCH_NAME}"
-                 }catch(hudson.AbortException e){
-                     
-                 }
+                    sh "docker stack rm ${env.BRANCH_NAME}"
+            }
+
+
+            stage('Configuration du deploiement') {
+                    sh "docker-compose config > docker-compose-stack.yml"
             }
            
             stage('Demarrage de la stack') {
-                    sh "docker stack deploy -c <(docker-compose config) ${env.BRANCH_NAME}"
+                    sh "docker stack deploy -c docker-compose-stack.yml ${env.BRANCH_NAME}"
+            }
+
+             stage('Netoyage de l\'environnement') {
+                    sh "rm docker-compose-stack.yml"
             }
         }
     } catch (hudson.AbortException ae) {
