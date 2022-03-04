@@ -24,11 +24,11 @@ node {
             }
 
              stage('Stop applications') {
-                    sh "docker stack rm -c <(docker-compose config) $branch"
+                    sh "docker stack rm -c <(docker-compose config) ${branch}"
             }
            
             stage('Demarrage de la stack') {
-                    sh "docker stack deploy -c <(docker-compose config) $branch"
+                    sh "docker stack deploy -c <(docker-compose config) {$branch}"
             }
         }
     } catch (hudson.AbortException ae) {
