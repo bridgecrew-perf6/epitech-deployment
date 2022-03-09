@@ -62,6 +62,9 @@ services:
     image: epitech/notifications:${versionMsNotifications}
     environment:
       - eureka_client_serviceUrl_defaultZone=http://${ipServer}:${porteureka}/eureka/
+      - spring_activemq_broker_url=tcp://${ipServer}:${activeMqbroker}
+      - spring_mail_host=${ipServer}
+      - spring_mail_port=${mailhogSmtpPort}
     restart: on-failure:5
     networks:
       - internal-epitech
@@ -88,6 +91,21 @@ services:
       resources:
         limits:
           memory: 200MB
+ mailhog:
+      image: mailhog/mailhog:v1.0.1
+      container_name: mailhog-${targetEnvironment}
+      ports:
+        - ${mailhogSmtpPort}:1025 # smtp server
+        - ${mailhogWebPort}:8025 # web ui
+      volumes:
+        - ./auth.file:/data/mailhog/auth.file
+      entrypoint: MailHog -auth-file=/data/mailhog/auth.file
+      environment:
+        MH_STORAGE: memory
+      deploy:
+        resources:
+          limits:
+            memory: 1G
 networks:
   internal-epitech:
     driver: overlay
