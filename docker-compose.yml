@@ -1,0 +1,93 @@
+version: "3.3"
+services:
+  eureka:
+    image: epitech/eureka:latest
+    environment:
+      - BLA=bla
+    restart: on-failure:5
+    ports:
+      - ${porteureka}:8761
+    networks:
+      - internal-epitech
+    deploy:
+      resources:
+        limits:
+          memory: 200MB
+  gateway:
+    image: epitech/gateway:latest
+    environment:
+      - eureka_client_serviceUrl_defaultZone=http://${ipServer}:${porteureka}/eureka/
+    restart: on-failure:5
+    networks:
+      - internal-epitech
+    ports:
+      - ${portgateway}:8762
+    deploy:
+      resources:
+        limits:
+          memory: 200MB
+    depends_on:
+      - eureka
+  msproduits:
+    image: epitech/produits:${versionMsProduits}
+    environment:
+      - eureka_client_serviceUrl_defaultZone=http://${ipServer}:${porteureka}/eureka/
+    restart: on-failure:5
+    networks:
+      - internal-epitech
+    deploy:
+      mode: replicated
+      replicas: 3
+      resources:
+        limits:
+          memory: 200MB
+    depends_on:
+      - eureka
+  mscommandes:
+    image: epitech/commandes:${versionMsCommandes}
+    environment:
+      - eureka_client_serviceUrl_defaultZone=http://${ipServer}:${porteureka}/eureka/
+    restart: on-failure:5
+    networks:
+      - internal-epitech
+    deploy:
+      mode: replicated
+      replicas: 3
+      resources:
+        limits:
+          memory: 200MB
+    depends_on:
+      - eureka
+  msnotifications:
+    image: epitech/notifications:${versionMsNotifications}
+    environment:
+      - eureka_client_serviceUrl_defaultZone=http://${ipServer}:${porteureka}/eureka/
+    restart: on-failure:5
+    networks:
+      - internal-epitech
+    deploy:
+      mode: replicated
+      replicas: 3
+      resources:
+        limits:
+          memory: 200MB
+    depends_on:
+      - eureka
+  messagebroker:
+    image: rmohr/activemq:5.10.0
+    environment:
+      ACTIVEMQ_REMOVE_DEFAULT_ACCOUNT: "true"
+      ACTIVEMQ_ADMIN_LOGIN: admin
+      ACTIVEMQ_ADMIN_PASSWORD: password
+    ports:
+      - ${activeMqbroker}:61616
+      - ${activeMqweb}:8161
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          memory: 200MB
+networks:
+  internal-epitech:
+    driver: overlay
