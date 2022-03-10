@@ -82,6 +82,8 @@ services:
       ACTIVEMQ_REMOVE_DEFAULT_ACCOUNT: "true"
       ACTIVEMQ_ADMIN_LOGIN: admin
       ACTIVEMQ_ADMIN_PASSWORD: password
+    networks:
+      - internal-epitech
     ports:
       - ${activeMqbroker}:61616
       - ${activeMqweb}:8161
@@ -93,13 +95,14 @@ services:
           memory: 200MB
   mailhog:
     image: mailhog/mailhog:v1.0.1
-    container_name: mailhog-${targetEnvironment}
     ports:
       - ${mailhogSmtpPort}:1025 # smtp server
       - ${mailhogWebPort}:8025 # web ui
     volumes:
       - ./auth.file:/data/mailhog/auth.file
     entrypoint: MailHog -auth-file=/data/mailhog/auth.file
+    networks:
+      - internal-epitech
     environment:
       MH_STORAGE: memory
     deploy:
