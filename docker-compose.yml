@@ -47,6 +47,7 @@ services:
     image: epitech/commandes:${versionMsCommandes}
     environment:
       - eureka_client_serviceUrl_defaultZone=http://${ipServer}:${porteureka}/eureka/
+      - spring_activemq_broker_url=tcp://${ipServer}:${activeMqbroker}
     restart: on-failure:5
     networks:
       - internal-epitech
