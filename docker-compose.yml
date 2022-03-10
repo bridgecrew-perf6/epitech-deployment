@@ -4,11 +4,8 @@ services:
     image: epitech/eureka:latest
     environment:
       - BLA=bla
-    restart: on-failure:5
     ports:
       - ${porteureka}:8761
-    networks:
-      - internal-epitech
     deploy:
       resources:
         limits:
@@ -17,9 +14,6 @@ services:
     image: epitech/gateway:latest
     environment:
       - eureka_client_serviceUrl_defaultZone=http://${ipServer}:${porteureka}/eureka/
-    restart: on-failure:5
-    networks:
-      - internal-epitech
     ports:
       - ${portgateway}:8762
     deploy:
@@ -32,9 +26,6 @@ services:
     image: epitech/produits:${versionMsProduits}
     environment:
       - eureka_client_serviceUrl_defaultZone=http://${ipServer}:${porteureka}/eureka/
-    restart: on-failure:5
-    networks:
-      - internal-epitech
     deploy:
       mode: replicated
       replicas: 1
@@ -48,9 +39,6 @@ services:
     environment:
       - eureka_client_serviceUrl_defaultZone=http://${ipServer}:${porteureka}/eureka/
       - spring_activemq_broker_url=tcp://${ipServer}:${activeMqbroker}
-    restart: on-failure:5
-    networks:
-      - internal-epitech
     deploy:
       mode: replicated
       replicas: 1
@@ -66,9 +54,6 @@ services:
       - spring_activemq_broker_url=tcp://${ipServer}:${activeMqbroker}
       - spring_mail_host=${ipServer}
       - spring_mail_port=${mailhogSmtpPort}
-    restart: on-failure:5
-    networks:
-      - internal-epitech
     deploy:
       mode: replicated
       replicas: 1
@@ -83,8 +68,6 @@ services:
       ACTIVEMQ_REMOVE_DEFAULT_ACCOUNT: "true"
       ACTIVEMQ_ADMIN_LOGIN: admin
       ACTIVEMQ_ADMIN_PASSWORD: password
-    networks:
-      - internal-epitech
     ports:
       - ${activeMqbroker}:61616
       - ${activeMqweb}:8161
@@ -102,14 +85,9 @@ services:
     volumes:
       - ./auth.file:/data/mailhog/auth.file
     entrypoint: MailHog -auth-file=/data/mailhog/auth.file
-    networks:
-      - internal-epitech
     environment:
       MH_STORAGE: memory
     deploy:
       resources:
         limits:
           memory: 1G
-networks:
-  internal-epitech:
-    driver: overlay
