@@ -26,7 +26,7 @@ node {
             }
 
               stage('Creation reseau') {
-                    sh "docker service create --network ${env.BRANCH_NAME}"
+                    sh "docker network create ${env.BRANCH_NAME}-default"
             }
 
             stage('Configuration du deploiement') {
