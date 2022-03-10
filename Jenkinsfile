@@ -22,7 +22,8 @@ node {
             }
 
              stage('Stop applications') {
-                    sh "docker stack rm ${env.BRANCH_NAME}"
+                 //   sh "docker stack rm ${env.BRANCH_NAME}"
+                                      sh "docker-compose down -v"
             }
 
               stage('Creation reseau') {
@@ -30,15 +31,16 @@ node {
             }
 
             stage('Configuration du deploiement') {
-                    sh "docker-compose config > docker-compose-stack.yml"
+                   // sh "docker-compose config > docker-compose-stack.yml"
             }
            
             stage('Demarrage de la stack') {
-                    sh "docker stack deploy -c docker-compose-stack.yml ${env.BRANCH_NAME}"
+                  //  sh "docker stack deploy -c docker-compose-stack.yml ${env.BRANCH_NAME}"
+                  sh "docker-compose up -d"
             }
 
              stage('Netoyage de l\'environnement') {
-                    sh "rm docker-compose-stack.yml"
+                 //   sh "rm docker-compose-stack.yml"
             }
         }
     } catch (hudson.AbortException ae) {
