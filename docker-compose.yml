@@ -83,7 +83,7 @@ services:
       - ${mailhogSmtpPort}:1025 # smtp server
       - ${mailhogWebPort}:8025 # web ui
     volumes:
-      - ./auth.file:/data/mailhog/auth.file
+      - ./mailhog/auth.file:/data/mailhog/auth.file
     entrypoint: MailHog -auth-file=/data/mailhog/auth.file
     environment:
       MH_STORAGE: memory
