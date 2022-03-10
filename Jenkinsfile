@@ -21,11 +21,6 @@ node {
 
             }
 
-             stage('Stop applications') {
-                    sh "docker stack rm ${env.BRANCH_NAME}"
-            }
-
-
             stage('Configuration du deploiement') {
                     sh "docker-compose config > docker-compose-stack.yml"
             }
